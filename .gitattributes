@@ -1,0 +1,32 @@
+# Git Attributes for AI Personal Productivity Assistant
+# Ensures proper handling of different file types
+
+# Configuration files should be treated as text
+*.yaml text
+*.yml text
+*.json text
+
+# Python files
+*.py text eol=lf
+
+# Markdown files
+*.md text
+
+# Large files (models, datasets) should be treated as binary
+*.pkl binary
+*.h5 binary
+*.pb binary
+*.onnx binary
+*.joblib binary
+*.db binary
+*.sqlite binary
+*.sqlite3 binary
+
+# CSV files might contain large datasets
+*.csv binary
+
+# Log files
+*.log text
+
+# Ensure line endings are consistent
+* text=auto eol=lf

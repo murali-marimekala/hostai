@@ -1,0 +1,84 @@
+# Example Configuration for AI Personal Productivity Assistant
+# Copy this file to create your local configuration
+# DO NOT commit your personal config file to the repository
+
+# Data Collection Settings
+DATA_COLLECTION:
+  ENABLED: true
+  FILE_MONITORING: true
+  APP_MONITORING: true
+  ACTIVITY_LOGGING: true
+  SAMPLING_INTERVAL: 60  # seconds
+
+# Privacy Settings - Customize these for your privacy preferences
+PRIVACY:
+  EXCLUDE_PATHS:
+    - "/System/"
+    - "/Library/"
+    - "/usr/"
+    - "/private/"
+    - "/.Trash/"
+    - "/Applications/"
+    - "~/Documents/Financial/"
+    - "~/Documents/Medical/"
+    - "~/Desktop/Sensitive/"
+  EXCLUDE_APPS:
+    - "System Preferences"
+    - "Finder"
+    - "Terminal"
+    - "Keychain Access"
+    - "Banking App"  # Add your sensitive apps here
+  SENSITIVE_KEYWORDS:
+    - "password"
+    - "secret"
+    - "key"
+    - "token"
+    - "ssn"
+    - "social"
+    - "bank"
+    - "credit"
+    - "medical"
+
+# Machine Learning Settings
+ML:
+  MODEL_UPDATE_INTERVAL: 86400  # 24 hours in seconds
+  TRAINING_DATA_RETENTION: 90  # days
+  MIN_TRAINING_SAMPLES: 1000
+  MODEL_TYPES:
+    - "time_series"
+    - "classification"
+    - "recommendation"
+
+# Recommendation Settings
+RECOMMENDATIONS:
+  MAX_SUGGESTIONS: 5
+  CONFIDENCE_THRESHOLD: 0.7
+  UPDATE_FREQUENCY: 3600  # 1 hour in seconds
+
+# UI Settings
+UI:
+  THEME: "system"  # Options: light, dark, system
+  NOTIFICATIONS_ENABLED: true
+  AUTO_START: false  # Set to true to start on system boot
+  LOGIN_REMINDER: true
+
+# Database Settings
+DATABASE:
+  PATH: "~/.ai_productivity_assistant/data.db"
+  BACKUP_INTERVAL: 604800  # 7 days in seconds
+  MAX_SIZE_MB: 100  # Maximum database size
+
+# Logging
+LOGGING:
+  LEVEL: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  FILE: "~/.ai_productivity_assistant/logs/app.log"
+  MAX_SIZE: 10485760  # 10MB
+  BACKUP_COUNT: 5
+  CONSOLE_LOGGING: true
+
+# Advanced Settings (usually don't need to change)
+ADVANCED:
+  PERFORMANCE_MODE: "balanced"  # Options: performance, balanced, privacy
+  BACKGROUND_PROCESSING: true
+  MEMORY_LIMIT_MB: 512
+  CPU_LIMIT_PERCENT: 10

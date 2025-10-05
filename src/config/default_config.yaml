@@ -1,0 +1,62 @@
+# Configuration for AI Personal Productivity Assistant
+
+# Data Collection Settings
+DATA_COLLECTION:
+  ENABLED: true
+  FILE_MONITORING: true
+  APP_MONITORING: true
+  ACTIVITY_LOGGING: true
+  SAMPLING_INTERVAL: 60  # seconds
+
+# Privacy Settings
+PRIVACY:
+  EXCLUDE_PATHS:
+    - "/System/"
+    - "/Library/"
+    - "/usr/"
+    - "/private/"
+    - "/.Trash/"
+    - "/Applications/"
+  EXCLUDE_APPS:
+    - "System Preferences"
+    - "Finder"
+    - "Terminal"
+  SENSITIVE_KEYWORDS:
+    - "password"
+    - "secret"
+    - "key"
+    - "token"
+
+# Machine Learning Settings
+ML:
+  MODEL_UPDATE_INTERVAL: 86400  # 24 hours in seconds
+  TRAINING_DATA_RETENTION: 90  # days
+  MIN_TRAINING_SAMPLES: 1000
+  MODEL_TYPES:
+    - "time_series"
+    - "classification"
+    - "recommendation"
+
+# Recommendation Settings
+RECOMMENDATIONS:
+  MAX_SUGGESTIONS: 5
+  CONFIDENCE_THRESHOLD: 0.7
+  UPDATE_FREQUENCY: 3600  # 1 hour in seconds
+
+# UI Settings
+UI:
+  THEME: "dark"
+  NOTIFICATIONS_ENABLED: true
+  AUTO_START: true
+
+# Database Settings
+DATABASE:
+  PATH: "~/.ai_productivity_assistant/data.db"
+  BACKUP_INTERVAL: 604800  # 7 days in seconds
+
+# Logging
+LOGGING:
+  LEVEL: "INFO"
+  FILE: "~/.ai_productivity_assistant/logs/app.log"
+  MAX_SIZE: 10485760  # 10MB
+  BACKUP_COUNT: 5
