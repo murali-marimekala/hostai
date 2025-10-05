@@ -1,103 +1,75 @@
-# AI Personal Productivity Assistant
+# AI Local Learning Framework
 
-An intelligent, offline AI application that learns from your laptop activity to provide personalized work recommendations and productivity insights.
+A privacy-focused AI framework that learns from local machine activity to help you be more productive.
+
+## Overview
+
+The AI Local Learning Framework is an application that:
+
+1. **Learns from your local machine activity** (file system, application usage)
+2. **Processes all data locally** with no cloud dependencies
+3. **Helps identify productivity patterns** and provides recommendations
+4. **Respects your privacy** by keeping all data on your device
 
 ## Features
 
-- **Offline Learning**: Trains AI models locally on your machine
-- **Activity Monitoring**: Tracks file usage, application patterns, and work habits
-- **Smart Recommendations**: Suggests optimal tasks and work schedules
-- **Privacy-First**: All data stays on your device
-- **Cross-Platform**: Works on macOS, Windows, and Linux
-
-## Quick Start
-
-### Prerequisites
-
-- Python 3.8 or higher
-- pip package manager
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/ai-productivity-assistant.git
-cd ai-productivity-assistant
-```
-
-2. Run the setup script:
-```bash
-./setup.sh
-```
-
-3. Edit your privacy configuration:
-```bash
-nano ~/.ai_productivity_assistant/config/user_config.yaml
-```
-
-4. Run the application:
-```bash
-python3 src/main.py
-```
+- **Local Data Collection**: Monitor file system activity and application usage
+- **Machine Learning**: Identify productivity patterns and work habits
+- **Personalized Recommendations**: Get suggestions for improving productivity
+- **Complete Privacy**: All processing happens on your device, no data sharing
+- **Modular Architecture**: Easily extendable with new data sources or models
 
 ## Architecture
 
-This application follows a modular architecture with the following components:
+This project follows a carefully designed modular architecture, allowing components to be developed and tested independently:
 
-- **Data Collection**: Monitors system activity and file usage
-- **Data Processing**: Cleans and transforms raw activity data
-- **Machine Learning**: Trains models on user patterns
-- **Recommendation Engine**: Generates personalized suggestions
-- **User Interface**: Provides intuitive access to insights
+- **Data Collectors**: Gather system events and activity data
+- **Data Processing**: Transform raw data into ML features
+- **Storage**: Persist data and models locally
+- **Machine Learning**: Train models and generate predictions
+- **User Interface**: Visualize insights and present recommendations
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed technical documentation.
+For more details, see [OPTIMIZED_ARCHITECTURE.md](OPTIMIZED_ARCHITECTURE.md).
 
-## 🔒 Security & Privacy
+## Getting Started
 
-This application is designed with privacy as the highest priority:
-
-- **Local-only processing**: No data ever leaves your device
-- **Configurable privacy controls**: Customize what data is collected
-- **Automatic data cleanup**: Old data is regularly purged
-- **Transparent operation**: Clear visibility into all data collection
-
-For detailed security information, see [SECURITY.md](SECURITY.md).
-
-## 🚀 Making Your Project Available on GitHub
-
-### Step 1: Create GitHub Repository
-
-1. Go to [GitHub.com](https://github.com) and sign in
-2. Click "New repository"
-3. Name it `ai-productivity-assistant`
-4. **Important**: Initialize with a README (we'll replace it)
-5. **Do NOT** add .gitignore (we have a custom one)
-
-### Step 2: Push Your Code Safely
+### Setting Up Development Environment
 
 ```bash
-# Add all safe files to git
-git add .
+# Clone the repository
+git clone https://github.com/murali-marimekala/hostai.git
+cd hostai
 
-# Verify what will be committed (should NOT include sensitive files)
-git status
+# Initialize the project structure
+./initialize_project.py
 
-# If sensitive files appear, check .gitignore and remove them
-git reset HEAD sensitive_file.db
+# Create a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Commit the safe files
-git commit -m "Initial commit: AI Personal Productivity Assistant"
-
-# Add your GitHub repository as remote
-git remote add origin https://github.com/yourusername/ai-productivity-assistant.git
-
-# Push to GitHub
-git push -u origin main
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-### Step 3: Verify Security
+### Development Process
 
-Run these checks to ensure no sensitive data was committed:
+Follow the development roadmap in [DEVELOPMENT_ROADMAP.md](DEVELOPMENT_ROADMAP.md) for step-by-step implementation instructions.
+
+For implementation guidance, see [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md).
+
+## Tech Stack
+
+- **Python 3.8+**: Core programming language
+- **scikit-learn**: Machine learning framework
+- **SQLite**: Local data storage
+- **Watchdog**: File system monitoring
+- **psutil**: System and application monitoring
+- **PyQt5**: User interface
+- **pandas/numpy**: Data processing
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ```bash
 # Check for sensitive files on GitHub

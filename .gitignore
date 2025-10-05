@@ -1,4 +1,4 @@
-# AI Personal Productivity Assistant - .gitignore
+# AI Local Learning Framework - .gitignore
 # This file ensures sensitive data and temporary files are never committed to the repository
 
 # ===========================================
@@ -6,9 +6,7 @@
 # ===========================================
 
 # User-specific configuration files (may contain API keys, personal data)
-config/user_config.yaml
-config/local_config.yaml
-config/personal_settings.yaml
+config/config.yaml
 *.local.yaml
 *.local.yml
 
