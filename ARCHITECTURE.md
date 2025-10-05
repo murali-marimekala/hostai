@@ -1,228 +1,337 @@
-# AI Personal Productivity Assistant - Architecture Document
+# AI Local Learning Framework - Architecture Document
 
 ## Overview
 
-This document outlines the architecture for an AI-powered personal productivity assistant that learns from user activity on their laptop to provide intelligent work recommendations. The system operates entirely offline, training on local data and providing insights when the user logs in.
+This document outlines the architecture for a generic AI framework that enables users to train machine learning models locally using their own system events and data. The framework provides a complete solution for collecting data, training models, and generating predictions entirely on the user's device, with no external dependencies or data transmission.
+
+## Core Principles
+
+### 1. **Self-Contained Operation**
+- **Zero external dependencies**: Works completely offline
+- **User-owned data**: All training data comes from the user's system
+- **Local predictions**: All inferences run on the user's device
+- **No data transmission**: Nothing leaves the user's machine
+
+### 2. **Generic and Extensible**
+- **Configurable data sources**: Users define what data to collect
+- **Flexible model types**: Support for various ML algorithms
+- **Customizable features**: Adaptable to different use cases
+- **Plugin architecture**: Easy to extend with new capabilities
+
+### 3. **Privacy-First Design**
+- **Local-only processing**: All operations happen on-device
+- **User-controlled data**: Clear consent and configuration options
+- **Transparent operations**: Users can inspect all data and models
+- **Data sovereignty**: Users own and control their data
 
 ## System Architecture
 
 ### Core Components
 
 #### 1. Data Collection Layer
-**Purpose**: Continuously monitor and collect user activity data while maintaining privacy and performance.
+**Purpose**: Collect and manage user-defined data sources for model training.
 
 **Components**:
-- **File System Monitor**: Tracks file access patterns, creation/modification times, and content types
-- **Application Usage Tracker**: Monitors which applications are used and for how long
-- **Time-based Activity Logger**: Records work sessions, breaks, and productivity patterns
-- **Context Awareness Engine**: Determines work vs. personal time, project contexts
+- **Data Source Manager**: Configures and manages multiple data sources
+- **Event Collectors**: Capture system events (file operations, application usage, etc.)
+- **Data Validators**: Ensure data quality and format consistency
+- **Storage Manager**: Handles local data persistence and retrieval
 
-**Data Sources**:
-- File system events (read/write operations)
-- Application launch/exit events
-- Window focus changes
-- Keyboard/mouse activity patterns
+**Supported Data Sources** (Configurable by user):
+- File system events and metadata
+- Application usage patterns
+- System performance metrics
+- User interaction data
 - Time-based contextual information
+- Custom data sources via plugins
 
 #### 2. Data Processing & Feature Engineering Layer
 
-**Purpose**: Transform raw activity data into meaningful features for machine learning.
+**Purpose**: Transform collected data into features suitable for machine learning.
 
 **Components**:
-- **Data Preprocessor**: Cleans and normalizes raw activity data
-- **Feature Extractor**: Creates relevant features such as:
-  - Time-based patterns (peak productivity hours)
-  - File type preferences
-  - Application usage sequences
-  - Project context indicators
-  - Task completion patterns
-- **Privacy Filter**: Ensures sensitive data is anonymized or excluded
+- **Data Preprocessor**: Cleans, normalizes, and validates raw data
+- **Feature Extractor**: Creates ML-ready features from raw data
+- **Feature Store**: Manages and versions extracted features
+- **Data Pipeline Manager**: Orchestrates data processing workflows
+
+**Key Features**:
+- **Configurable preprocessing**: Users define data cleaning rules
+- **Feature engineering**: Automatic and custom feature creation
+- **Data versioning**: Track changes in data and features
+- **Quality monitoring**: Ensure feature quality and consistency
 
 #### 3. Machine Learning Layer
 
-**Purpose**: Train and maintain AI models that understand user work patterns and preferences.
+**Purpose**: Train and manage ML models using user-provided data and configurations.
 
 **Components**:
-- **Offline Training Engine**: Handles model training during idle times
-- **Pattern Recognition Models**:
-  - **Work Pattern Classifier**: Identifies productive vs. unproductive activities
-  - **Task Priority Predictor**: Learns which tasks are most important
-  - **Time Management Optimizer**: Suggests optimal work schedules
-  - **Context-Aware Recommender**: Provides personalized recommendations
-- **Model Persistence**: Saves trained models locally for offline use
+- **Model Factory**: Creates models based on user specifications
+- **Training Engine**: Handles model training with user data
+- **Model Registry**: Stores and versions trained models
+- **Inference Engine**: Provides prediction capabilities
 
-#### 4. Recommendation Engine
+**Supported Model Types** (Extensible):
+- Classification models
+- Regression models
+- Time series forecasting
+- Clustering algorithms
+- Custom models via plugins
 
-**Purpose**: Generate actionable insights and suggestions based on learned patterns.
+#### 4. Prediction & Inference Layer
 
-**Components**:
-- **Priority Assessment**: Evaluates current tasks and projects
-- **Schedule Optimizer**: Suggests when to work on different tasks
-- **Context Generator**: Provides reasoning for recommendations
-- **User Feedback Loop**: Learns from user acceptance/rejection of suggestions
-
-#### 5. User Interface Layer
-
-**Purpose**: Present recommendations in an intuitive, non-intrusive way.
+**Purpose**: Generate predictions and insights using trained models.
 
 **Components**:
-- **Login Dashboard**: Shows prioritized tasks upon login
-- **Notification System**: Gentle reminders during work sessions
-- **Settings Panel**: Allows users to configure preferences and privacy settings
-- **Feedback Interface**: Quick ways to accept/reject suggestions
+- **Prediction Service**: Handles real-time and batch predictions
+- **Result Processor**: Formats and presents prediction results
+- **Feedback Collector**: Gathers user feedback for model improvement
+- **Performance Monitor**: Tracks model accuracy and performance
 
-## Data Flow
+#### 5. User Interface & Configuration Layer
+
+**Purpose**: Provide user control over the entire system.
+
+**Components**:
+- **Configuration Manager**: Handles user settings and preferences
+- **Dashboard Interface**: Visualizes data, models, and predictions
+- **Control Panel**: Allows users to start/stop training and predictions
+- **Plugin Manager**: Enables installation and management of extensions
+
+## Data Flow Architecture
 
 ```
-Raw Activity Data → Data Processing → Feature Engineering → Model Training → Recommendations → User Interface
+User Configuration → Data Collection → Data Processing → Model Training → Predictions → User Interface
 ```
 
 ### Detailed Data Flow:
 
-1. **Collection Phase**:
-   - System hooks capture file system events
-   - Application monitors track usage patterns
-   - Time-based sampling records activity levels
+1. **Configuration Phase**:
+   - User defines data sources and collection parameters
+   - Specifies model types and training configurations
+   - Sets privacy and performance preferences
 
-2. **Processing Phase**:
-   - Data is aggregated and cleaned
-   - Features are extracted (time patterns, file types, app sequences)
-   - Privacy filters remove sensitive information
+2. **Data Collection Phase**:
+   - System collects data based on user configuration
+   - Data is validated and stored locally
+   - Collection runs continuously or on user-defined schedules
 
-3. **Learning Phase**:
-   - Models are trained on historical data
-   - Patterns are identified and weighted
-   - Models are updated incrementally
+3. **Data Processing Phase**:
+   - Raw data is cleaned and normalized
+   - Features are extracted and engineered
+   - Processed data is stored for model training
 
-4. **Recommendation Phase**:
-   - Current context is analyzed
-   - Models predict optimal actions
-   - Recommendations are generated and ranked
+4. **Model Training Phase**:
+   - Models are trained using processed data
+   - Training happens during user-specified times
+   - Models are validated and stored locally
 
-5. **Presentation Phase**:
-   - Recommendations are displayed at login
-   - Real-time suggestions are provided
-   - User feedback is collected for model improvement
+5. **Prediction Phase**:
+   - Trained models generate predictions
+   - Results are presented through user interface
+   - User feedback improves future predictions
 
 ## Technical Implementation
 
 ### Technology Stack
 
-#### Backend (Python-based)
-- **Data Collection**: `watchdog` for file monitoring, `psutil` for system monitoring
-- **Data Processing**: `pandas`, `numpy` for data manipulation
-- **Machine Learning**: `scikit-learn`, `tensorflow`/`pytorch` for model training
+#### Core Framework (Python-based)
+- **Data Collection**: `watchdog`, `psutil`, `pyobjc` (platform-specific)
+- **Data Processing**: `pandas`, `numpy`, `scikit-learn`
+- **Machine Learning**: `scikit-learn`, `tensorflow`, `pytorch`
 - **Database**: `SQLite` for local data storage
-- **Scheduling**: Background service for continuous monitoring
+- **Configuration**: `PyYAML` for user settings
+- **UI Framework**: `tkinter` or web-based interface
 
-#### Machine Learning Models
-
-1. **Time Series Analysis**:
-   - Predict optimal work hours based on historical patterns
-   - Identify peak productivity periods
-
-2. **Classification Models**:
-   - Work vs. personal activity classification
-   - Task importance prediction
-   - Project context recognition
-
-3. **Recommendation System**:
-   - Collaborative filtering based on user's own patterns
-   - Content-based recommendations using file/project metadata
-
-#### Privacy & Security
-
-- **Local-only Processing**: All data stays on user's machine
-- **Anonymization**: File names and sensitive content are hashed or excluded
-- **User Consent**: Clear opt-in/opt-out for different data types
-- **Data Retention**: Configurable data retention policies
+#### Extensibility Features
+- **Plugin System**: Support for custom data collectors and models
+- **API Interfaces**: RESTful APIs for integration
+- **Configuration DSL**: Domain-specific language for complex setups
+- **Model Serialization**: Multiple formats for model storage
 
 ### System Requirements
 
-#### Hardware Requirements
-- **CPU**: Multi-core processor for model training
-- **RAM**: Minimum 8GB, recommended 16GB+
-- **Storage**: 10GB+ for data and models
-- **Network**: None required (offline operation)
+#### Minimum Requirements
+- **OS**: macOS 10.15+, Windows 10+, Linux (Ubuntu 18.04+)
+- **CPU**: Dual-core processor (4+ cores recommended)
+- **RAM**: 4GB minimum (8GB+ recommended for training)
+- **Storage**: 5GB+ for data, models, and framework
+- **Network**: None required (fully offline)
 
-#### Software Requirements
-- **OS**: macOS, Windows, Linux
-- **Python**: 3.8+
-- **Dependencies**: ML libraries, system monitoring tools
+#### Software Dependencies
+- **Python**: 3.8+ with pip
+- **System Libraries**: Platform-specific monitoring libraries
+- **ML Libraries**: Configurable based on user needs
 
-## Implementation Phases
+## Configuration System
 
-### Phase 1: Foundation (Data Collection)
-- Implement basic activity monitoring
-- Set up data storage and processing pipeline
-- Create privacy controls
+### User Configuration Hierarchy
 
-### Phase 2: Core ML (Pattern Recognition)
-- Develop initial ML models for pattern recognition
-- Implement offline training system
-- Create basic recommendation engine
+1. **Framework Defaults**: Built-in safe defaults
+2. **User Preferences**: Global user settings
+3. **Project Configurations**: Per-use-case settings
+4. **Runtime Overrides**: Dynamic configuration changes
 
-### Phase 3: Intelligence (Advanced Features)
-- Add context-aware recommendations
-- Implement user feedback learning
-- Enhance privacy and performance
+### Configuration Areas
 
-### Phase 4: Polish (User Experience)
-- Develop intuitive user interface
-- Add configuration options
-- Implement comprehensive testing
+#### Data Collection Configuration
+```yaml
+data_sources:
+  - type: file_system
+    paths: ["/Users", "/Documents"]
+    events: ["create", "modify", "delete"]
+  - type: application_usage
+    track_window_focus: true
+    sample_interval: 60
+```
+
+#### Model Configuration
+```yaml
+models:
+  - name: productivity_classifier
+    type: classification
+    algorithm: random_forest
+    features: ["time_of_day", "app_usage", "file_types"]
+    target: productivity_score
+```
+
+#### Privacy Configuration
+```yaml
+privacy:
+  exclude_paths: ["/System", "/private"]
+  exclude_apps: ["password_manager", "banking_app"]
+  data_retention_days: 90
+  anonymize_sensitive_data: true
+```
+
+## Extensibility Architecture
+
+### Plugin System
+
+#### Data Source Plugins
+- **Interface**: Standard API for custom data collectors
+- **Examples**: Email analysis, calendar integration, custom sensors
+- **Registration**: Automatic discovery and loading
+
+#### Model Plugins
+- **Interface**: Standard ML model wrapper API
+- **Examples**: Custom algorithms, domain-specific models
+- **Training**: Integrated with framework's training pipeline
+
+#### UI Plugins
+- **Interface**: UI component extension API
+- **Examples**: Custom dashboards, specialized visualizations
+- **Integration**: Seamless integration with main interface
+
+### API Architecture
+
+#### RESTful API
+- **Endpoints**: Standard CRUD operations for all components
+- **Authentication**: Local token-based authentication
+- **Documentation**: Auto-generated API documentation
+
+#### Python API
+- **SDK**: Python library for programmatic access
+- **Integration**: Easy integration with other Python applications
+- **Extensibility**: Hooks for custom functionality
 
 ## Deployment & Distribution
 
-### Packaging
-- **Standalone Application**: Cross-platform installer
-- **Background Service**: Runs automatically on system startup
-- **Configuration**: User-friendly setup wizard
+### Installation Methods
 
-### Updates
-- **Automatic Updates**: Check for updates periodically
-- **Model Retraining**: Incremental learning from new data
-- **Version Compatibility**: Backward compatibility for data migration
+#### Standalone Installer
+- **Platform-specific**: Native installers for each OS
+- **Self-contained**: Includes all dependencies
+- **Auto-updates**: Optional automatic update system
 
-## Monitoring & Maintenance
+#### Container Deployment
+- **Docker images**: Pre-built containers for different use cases
+- **Docker Compose**: Multi-service deployments
+- **Kubernetes**: Scalable deployments (single-node)
 
-### System Health
-- **Performance Monitoring**: Track system resource usage
-- **Data Quality Checks**: Ensure data integrity
-- **Model Accuracy**: Monitor recommendation quality
+#### Source Installation
+- **Git clone**: Direct from repository
+- **Setup script**: Automated dependency installation
+- **Development mode**: Full development environment
 
-### User Support
-- **Logs**: Comprehensive logging for troubleshooting
-- **Configuration Backup**: Export/import user settings
-- **Reset Options**: Ability to clear data and start fresh
+### Data Management
 
-## Risk Assessment
+#### Local Data Storage
+- **SQLite databases**: For structured data
+- **File system**: For large datasets and models
+- **Encryption**: Optional data encryption at rest
+- **Backup/Restore**: Built-in backup functionality
 
-### Privacy Risks
-- **Data Leakage**: Mitigated by local-only processing
-- **Sensitive Data Exposure**: Addressed through filtering and anonymization
-- **User Tracking Concerns**: Transparent data usage policies
+#### Data Portability
+- **Export formats**: Standard data formats (CSV, JSON, Parquet)
+- **Import capabilities**: Support for external data sources
+- **Migration tools**: Data format conversion utilities
 
-### Technical Risks
-- **Performance Impact**: Optimized background processing
-- **Model Accuracy**: Continuous validation and improvement
-- **System Compatibility**: Cross-platform testing
+## Security & Privacy Framework
 
-## Future Enhancements
+### Data Protection
+- **Local-only storage**: No cloud storage or transmission
+- **Access controls**: File system permissions and encryption
+- **Audit logging**: Track all data access and operations
+- **Secure deletion**: Safe data removal when requested
 
-### Advanced Features
-- **Natural Language Processing**: Understand task descriptions and emails
-- **Calendar Integration**: Learn from calendar events and meetings
-- **Cross-device Sync**: Sync patterns across multiple devices (optional)
-- **Team Collaboration**: Share anonymized patterns with team members
+### Privacy Controls
+- **Granular permissions**: Control over each data source
+- **Data anonymization**: Automatic sensitive data protection
+- **Retention policies**: Configurable data lifecycle management
+- **Transparency**: Clear visibility into data usage
 
-### Technical Improvements
-- **Edge ML**: Run models on device for better performance
-- **Federated Learning**: Privacy-preserving model updates
-- **Advanced Analytics**: Deeper insights into productivity patterns
+### Security Features
+- **Input validation**: All inputs validated and sanitized
+- **Secure defaults**: Conservative default configurations
+- **Update security**: Secure update mechanism
+- **Vulnerability management**: Regular security assessments
+
+## Use Case Examples
+
+### Productivity Assistant
+- **Data Sources**: File operations, app usage, time tracking
+- **Models**: Activity classification, task prioritization
+- **Predictions**: Work recommendations, optimal schedules
+
+### System Health Monitor
+- **Data Sources**: Performance metrics, error logs, resource usage
+- **Models**: Anomaly detection, predictive maintenance
+- **Predictions**: System health alerts, optimization recommendations
+
+### Custom Analytics
+- **Data Sources**: User-defined sensors and data streams
+- **Models**: Custom algorithms for specific domains
+- **Predictions**: Domain-specific insights and recommendations
+
+## Implementation Roadmap
+
+### Phase 1: Core Framework
+- Basic data collection and storage
+- Simple model training and inference
+- Configuration management
+- Basic user interface
+
+### Phase 2: Extensibility
+- Plugin system implementation
+- Advanced data processing
+- Multiple model support
+- API development
+
+### Phase 3: Advanced Features
+- Real-time processing
+- Model optimization
+- Advanced analytics
+- Integration capabilities
+
+### Phase 4: Production Ready
+- Comprehensive testing
+- Documentation completion
+- Performance optimization
+- User experience polish
 
 ## Conclusion
 
-This architecture provides a solid foundation for building an intelligent, privacy-focused personal productivity assistant. The offline-first approach ensures user data never leaves their machine while providing valuable insights to improve work efficiency and task prioritization.
+This architecture provides a robust, extensible framework for local AI model training and inference. By being completely self-contained and user-controlled, it ensures privacy while providing powerful capabilities for various use cases. The modular design allows for easy customization and extension, making it suitable for both individual users and organizations requiring local AI capabilities.
 
-The modular design allows for incremental development and easy maintenance, with clear separation of concerns between data collection, processing, learning, and recommendation generation.
+The framework's emphasis on local operation, user control, and extensibility makes it a versatile platform for building privacy-preserving AI applications that work entirely on the user's device.
